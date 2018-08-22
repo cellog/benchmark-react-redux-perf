@@ -7,7 +7,7 @@ const fs = require("fs");
 
 const TRACE_FILE = 'trace.json';
 
-const VERSIONS = ["5.0.7", "6.0-mark", "6.0-greg"];
+const VERSIONS = ["6.0-mark", "6.0-greg", "5.0.7",]
 
 const timeout = ms => new Promise(res => setTimeout(res, ms))
 
@@ -116,7 +116,7 @@ app.use(express.static('build'))
 
 async function capturePageStats(browser, url, traceFilename, delay = 30000) {
     const page = await browser.newPage();
-    await page.evaluate(() => performance.setResourceTimingBufferSize(100000));
+    await page.evaluate(() => performance.setResourceTimingBufferSize(1000000));
 
     let fpsValues, traceMetrics;
 
@@ -187,14 +187,14 @@ app.listen(9999, async () => {
         const {fpsValues} = fpsRunResults;
         const {categories} = traceRunResults.traceMetrics.profiling;
 
-        // skip first value = it's usually way lower due to page startup
+        // skip first two values = it's usually way lower due to page startup
         const fpsValuesWithoutFirst = fpsValues.slice(1);
 
         const average = arrayStats.average(fpsValuesWithoutFirst);
 
         const fps = {average, values : fpsValues}
 
-        versionPerfEntries[version] = {fps, profile : categories};
+        versionPerfEntries[version] = {fps, profile : {categories}};
     }
 
     await browser.close();

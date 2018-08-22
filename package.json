@@ -19,7 +19,7 @@
     "test": "react-app-rewired  --env=jsdom",
     "eject": "react-scripts eject",
     "test:e2e": "jest --watch",
-    "perf" : "node perfBenchmark.js"
+    "perf": "node perfBenchmark.js"
   },
   "browserslist": {
     "development": [
