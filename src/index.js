@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { App as SimpleApp, ForwardApp } from './App';
 
-import {Provider} from "react-redux";
+//import {Provider} from "react-redux";
+import Provider from './Provider'
+import useForward from './env'
 
 import {PerformanceMetadataMarker} from "performance-mark-metadata";
 import FpsEmitter from "fps-emitter";
@@ -12,6 +14,7 @@ import FpsEmitter from "fps-emitter";
 
 import configureStore from "./configureStore";
 
+const App = useForward ? ForwardApp : SimpleApp
 
 const marker = new PerformanceMetadataMarker();
 window.marker = marker;

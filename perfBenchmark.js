@@ -7,7 +7,7 @@ const fs = require("fs");
 
 const TRACE_FILE = 'trace.json';
 
-const VERSIONS = ["6.0-mark", "6.0-greg", "5.0.7",]
+const VERSIONS = ["", "1",]
 
 const timeout = ms => new Promise(res => setTimeout(res, ms))
 
@@ -160,28 +160,13 @@ app.listen(9999, async () => {
 
     const URL = 'http://localhost:9999';
 
-    for(let version of VERSIONS) {
-        const sourceFilename = `react-redux-${version}.min.js`;
-        fs.copyFileSync(sourceFilename, "build/react-redux.min.js");
+    for(let forward of VERSIONS) {
 
-        const outputSourcemapFilename = "build/react-redux.min.js.map";
-        if(fs.existsSync(outputSourcemapFilename)) {
-            fs.unlinkSync(outputSourcemapFilename);
-        }
-
-        const sourcemapFilename = sourceFilename + ".map";
-
-        if(fs.existsSync(sourcemapFilename)) {
-            fs.copyFileSync(sourcemapFilename, outputSourcemapFilename);
-        }
-
-
-
-        console.log(`Checking max FPS for version ${version}...`)
+        console.log(`Checking max FPS for ${forward ? 'React.forwardRef' : 'normal'}...`)
         const fpsRunResults = await capturePageStats(browser, URL, null);
 
         console.log(`Running perf trace for version ${version}...`);
-        const traceFilename = `trace-${version}.json`;
+        const traceFilename = `trace-${forward ? 'forward' : 'normal'}.json`;
         const traceRunResults = await capturePageStats(browser, URL, traceFilename);
 
         const {fpsValues} = fpsRunResults;

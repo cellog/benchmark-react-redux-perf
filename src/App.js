@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import {connect} from "react-redux";
 
-import {fillPairs, updatePair} from "./pairActions";
+import useForward from './env'
+//import {connect} from "react-redux";
 
-import Pair from "./Pair";
+//import {fillPairs, updatePair} from "./pairActions";
 
-function mapState(state) {
+import { Pair as SimplePair, ForwardPair, mapState as pairMapState } from "./Pair";
+
+const Pair = useForward ? ForwardPair : SimplePair
+
+export function mapState(state) {
     const partition = Math.floor(state.length / 3)
 
     return {
@@ -17,9 +21,9 @@ function mapState(state) {
     }
 }
 
-const actions = {fillPairs, updatePair};
+//const actions = {fillPairs, updatePair};
 
-class App extends React.Component {
+export class App extends Component {
     componentDidMount =  () => {
         this.props.fillPairs()
         this.simulate()
@@ -44,7 +48,7 @@ class App extends React.Component {
                             <ul className='list-group'>
                                 {group.map((pair) => {
                                     return (
-                                        <Pair key={pair.id} id={pair.id} />
+                                        <Pair key={pair.id} id={pair.id} {...pairMapState(this.props.state, { id: pair.id })} />
                                     )
                                 })}
                             </ul>
@@ -56,4 +60,6 @@ class App extends React.Component {
     }
 }
 
-export default connect(mapState, actions)(App);
+export const ForwardApp = React.forwardRef((props, ref) => <App {...props} />)
+
+//export default connect(mapState, actions)(App);

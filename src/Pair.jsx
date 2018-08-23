@@ -1,9 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
+//import { connect } from 'react-redux'
 
-const mapState = (state, props) => state[props.id];
+export const mapState = (state, props) => state[props.id];
 
-class Pair extends React.Component {
+export class Pair extends React.Component {
     state = {
         direction: 'up',
         value : this.props.value
@@ -47,4 +47,6 @@ class Pair extends React.Component {
     }
 }
 
-export default connect(mapState)(Pair)
+export const ForwardPair = React.forwardRef((props, ref) => <Pair {...props}/>)
+
+//export default connect(mapState)(Pair)
