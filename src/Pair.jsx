@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import SpecialContext from './SpecialContext'
 
 const mapState = (state, props) => state[props.id];
 
@@ -47,4 +48,4 @@ class Pair extends React.Component {
     }
 }
 
-export default connect(mapState)(Pair)
+export default connect(mapState, undefined, undefined, { consumer: SpecialContext.Consumer })(Pair)

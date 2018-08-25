@@ -7,7 +7,11 @@ const fs = require("fs");
 
 const TRACE_FILE = 'trace.json';
 
-const VERSIONS = ["6.0-mark", "6.0-greg", "5.0.7",]
+const VERSIONS = [
+  "6.0-mark",
+  "6.0-greg",
+  "5.0.7",
+]
 
 const timeout = ms => new Promise(res => setTimeout(res, ms))
 
@@ -154,7 +158,9 @@ async function capturePageStats(browser, url, traceFilename, delay = 30000) {
 }
 
 app.listen(9999, async () => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      //headless: false
+    });
 
     const versionPerfEntries = {};
 

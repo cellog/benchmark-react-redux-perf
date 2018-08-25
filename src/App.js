@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 
+import SpecialContext from './SpecialContext'
 import {fillPairs, updatePair} from "./pairActions";
 
 import Pair from "./Pair";
@@ -42,9 +43,9 @@ class App extends React.Component {
                     return (
                         <div className='col-lg-4' key={idx}>
                             <ul className='list-group'>
-                                {group.map((pair) => {
+                                {group.map((pair, i) => {
                                     return (
-                                        <Pair key={pair.id} id={pair.id} />
+                                        <Pair key={pair.id} id={pair.id} unstable_observedBits={1 << (i%30)} />
                                     )
                                 })}
                             </ul>
@@ -56,4 +57,4 @@ class App extends React.Component {
     }
 }
 
-export default connect(mapState, actions)(App);
+export default connect(mapState, actions, undefined, { consumer: SpecialContext.Consumer })(App);

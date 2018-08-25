@@ -11,7 +11,7 @@ import FpsEmitter from "fps-emitter";
 //const FpsEmitter = require("fps-emitter");
 
 import configureStore from "./configureStore";
-
+import SpecialContext from './SpecialContext'
 
 const marker = new PerformanceMetadataMarker();
 window.marker = marker;
@@ -44,7 +44,7 @@ const store = configureStore();
 
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={store} context={SpecialContext.Provider}>
         <App />
     </Provider>,
     document.getElementById('root')
